@@ -1,0 +1,7 @@
+# PlatformIO build artefacts – never commit these
+.pio/
+
+# VS Code workspace settings that are machine-specific (optional – remove the
+# lines below if you want to share launch / c_cpp_properties configs with the
+# team)
+.vscode/

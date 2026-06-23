@@ -1,5 +1,61 @@
 # ESP32 read APS inverters
-This project is intended to read out APS micro inverters, (YC600, DS3, QS1). 
+This project is intended to read out APS micro inverters, (YC600, DS3, QS1).
+
+## Building with PlatformIO (VS Code)
+
+A `platformio.ini` is provided so you can open this project directly in
+**VS Code + PlatformIO** without any restructuring.  All `.ino` / `.h` files
+remain in the project root, which means Arduino IDE keeps working too and
+upstream changes can be pulled with a plain `git merge`.
+
+### Quick-start
+
+```bash
+# 1. Clone (or fork) the repo
+git clone https://github.com/<your-user>/ESP32-read-APS-inverters.git
+cd ESP32-read-APS-inverters
+
+# 2. Open in VS Code (PlatformIO extension required)
+code .
+
+# --- OR use the PlatformIO CLI ---
+
+# Build
+pio run -e esp32dev
+
+# Build + upload (replace /dev/ttyUSB0 with your port)
+pio run -e esp32dev --target upload --upload-port /dev/ttyUSB0
+
+# Serial monitor
+pio device monitor --baud 115200
+```
+
+### Environments
+
+| Environment | Purpose |
+|---|---|
+| `esp32dev` | **Default** – optimised release build for ESP32 Dev WROOM32 |
+| `esp32dev_debug` | Debug build with `CORE_DEBUG_LEVEL=4` verbose logging |
+
+### Keeping in sync with upstream
+
+Because no files were moved or renamed, pulling the latest upstream changes is
+a straightforward merge:
+
+```bash
+# Add the upstream remote once
+git remote add upstream https://github.com/patience4711/ESP32-read-APS-inverters.git
+
+# Pull latest changes
+git fetch upstream
+git merge upstream/main   # or upstream/master depending on branch name
+```
+
+PlatformIO-specific files (`.gitignore`, `platformio.ini`) are not present in
+the upstream repository, so they will never cause merge conflicts.
+
+---
+
 Tt is a continuation of the project [ESP-ECU](https://github.com/patience4711/read-APSystems-YC600-QS1-DS3). The reason to run this on a more powerfull platform is that the ESP8266 has not enough program space for necessary program extensions.
 <br>
 The ESP32 has another big advantage over the ESP8266, the presence of a second uart. We can use one uart for the zigbee moduele and we have the other UART available for debugging on the serial monitor via usb. This way it is easyer to debug in the development stage. 
