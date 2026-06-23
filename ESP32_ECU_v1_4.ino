@@ -2,12 +2,12 @@
 // *****************************************************************************
 // *                              SETUP
 // *****************************************************************************
-#define RXD2 16
-#define TXD2 17
+#define RXD2 RXD_ZB
+#define TXD2 TXD_ZB
 void setup() {
   Serial.begin(115200);
 
-  Serial2.begin(115200, SERIAL_8N1, RXD2, TXD2);
+  ZB_SERIAL.begin(115200, SERIAL_8N1, RXD2, TXD2);
   Serial.println(F("Serial Txd is on pin: 17"));
   Serial.println(F("Serial Rxd is on pin: 16"));
 
@@ -206,7 +206,7 @@ void loop() {
   
   test_actionFlag();
   
-  if( Serial2.available() ) {
+  if( ZB_SERIAL.available() ) {
     empty_serial2(); // clear unexpected incoming data
    }
 

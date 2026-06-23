@@ -237,3 +237,19 @@ int Mqtt_stateIDX = 123;
 
 #include <Ticker.h>
 Ticker resetTicker;
+
+// ---------------------------------------------------------------------------
+// Zigbee UART selection
+//   Default (WROOM32):  Serial2 on GPIO16 (RX) / GPIO17 (TX)
+//   ESP32-mini target:  Serial  on GPIO3  (RX) / GPIO1  (TX)  (UART0)
+// Compile with -DZIGBEE_UART0 to select UART0.
+// ---------------------------------------------------------------------------
+#ifdef ZIGBEE_UART0
+  #define ZB_SERIAL Serial
+  #define RXD_ZB    3
+  #define TXD_ZB    1
+#else
+  #define ZB_SERIAL Serial2
+  #define RXD_ZB    16
+  #define TXD_ZB    17
+#endif

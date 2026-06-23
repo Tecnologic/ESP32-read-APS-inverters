@@ -18,14 +18,14 @@ char * readZB( char inMess[] ) {
     //memset( &inMessage, 0, sizeof(inMessage) ); //zero out the 
     //delayMicroseconds(250);
         
-    while (Serial2.available())
+    while (ZB_SERIAL.available())
         {
         //Serial.print("#");
         // here we have the danger that when readcounter reaches 512, there are 1024 bytes processed 
         // the length of a poll answer is usually not more than 223
         if (readCounter < CC2530_MAX_SERIAL_BUFFER_SIZE/2)
             {
-                sprintf( oneChar, "%02X", Serial2.read() ); // always uppercase
+                sprintf( oneChar, "%02X", ZB_SERIAL.read() ); // always uppercase
                 strncat(inMess, oneChar, 2); // append 
                 readCounter += 1;
             }
@@ -33,7 +33,7 @@ char * readZB( char inMess[] ) {
             {
                 empty_serial2(); // remove all excess data in the buffer at once
             }
-            if (Serial2.available() == 0) delay(120); // we wait if there comes more data
+            if (ZB_SERIAL.available() == 0) delay(120); // we wait if there comes more data
         }
         // now we should have catched inMessage
         if(readCounter == 0) inMess[0]='\0';
@@ -67,19 +67,19 @@ void sendZB( char printString[] )
     
     //until here this works!
     empty_serial2();
-    if (Serial2.availableForWrite() > (uint8_t)strlen(bufferSend))
+    if (ZB_SERIAL.availableForWrite() > (uint8_t)strlen(bufferSend))
     {
-        Serial2.write(0xFE); //we have to send "FE" at start of each command
+        ZB_SERIAL.write(0xFE); //we have to send "FE" at start of each command
         for (uint8_t i = 0; i <= strlen(bufferSend) / 2 - 1; i++)
         {
          // we use 2 characters to make a byte
             strncpy(byteSend, bufferSend + i * 2, 2); 
             delayMicroseconds(250);                     //
 
-            Serial2.write(StrToHex(byteSend));        //turn the two chars to a byte and send this
+            ZB_SERIAL.write(StrToHex(byteSend));        //turn the two chars to a byte and send this
         }
             
-            Serial2.flush(); //wait till the full command was sent
+            ZB_SERIAL.flush(); //wait till the full command was sent
             
     }
     
@@ -206,7 +206,7 @@ bool waitSerial2Available() // wait untill something 's available
   //We start with a minimum delay
   //delay(800);
   unsigned long wait = millis();
-  while ( !Serial2.available() )
+  while ( !ZB_SERIAL.available() )
       {
       if ( millis() - wait > 2000) return false; // return false after 2000 milis time out
       }

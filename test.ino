@@ -61,7 +61,7 @@ void sendRaw( char printString[] )
 
     empty_serial2();
     //if (Serial2.availableForWrite() > (uint8_t)strlen(bufferSend))
-    if (Serial2.availableForWrite() > (uint8_t)strlen(printString))
+    if (ZB_SERIAL.availableForWrite() > (uint8_t)strlen(printString))
     {
         //Serial2.write(0xFE); //we have to send "FE" at start of each command
         for (uint8_t i = 0; i <= strlen(printString) / 2 - 1; i++)
@@ -70,10 +70,10 @@ void sendRaw( char printString[] )
             strncpy(byteSend, printString + i * 2, 2); 
             delayMicroseconds(250);                     //
 
-            Serial2.write(StrToHex(byteSend));        //turn the two chars to a byte and send this
+            ZB_SERIAL.write(StrToHex(byteSend));        //turn the two chars to a byte and send this
         }
             
-            Serial2.flush(); //wait till the full command was sent
+            ZB_SERIAL.flush(); //wait till the full command was sent
             
     }
     
